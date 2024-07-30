@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { fetchMovieReviews } from "../../api";
 import s from "./MovieReviews.module.css";
 
-const MovieReviews = ({ movieId }) => {
+const MovieReviews = () => {
+  const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetchMovieReviews(movieId).then(setReviews);
+    if (movieId) {
+      fetchMovieReviews(movieId).then(setReviews);
+    }
   }, [movieId]);
 
   return (

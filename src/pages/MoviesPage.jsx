@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { searchMovies } from "../api";
 import MovieList from "../components/MovieList/MovieList";
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const query = searchParams.get("query") || "";
+    if (query) {
+      searchMovies(query).then(setMovies);
+    }
+  }, [searchParams]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    searchMovies(query).then(setMovies);
+    const form = e.target;
+    const query = form.elements.query.value;
+    setSearchParams({ query });
   };
 
   return (
@@ -17,8 +27,8 @@ const MoviesPage = () => {
       <form onSubmit={handleSearch}>
         <input
           type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          name="query"
+          defaultValue={searchParams.get("query")}
         />
         <button type="submit">Search</button>
       </form>

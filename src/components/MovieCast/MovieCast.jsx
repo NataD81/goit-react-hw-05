@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { fetchMovieCredits } from "../../api";
 import s from "./MovieCast.module.css";
 
-const MovieCast = ({ movieId }) => {
+const MovieCast = () => {
+  const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
-    fetchMovieCredits(movieId).then(setCast);
+    if (movieId) {
+      fetchMovieCredits(movieId).then(setCast);
+    }
   }, [movieId]);
 
   return (
@@ -24,4 +28,5 @@ const MovieCast = ({ movieId }) => {
     </div>
   );
 };
+
 export default MovieCast;

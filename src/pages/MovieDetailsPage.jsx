@@ -4,21 +4,15 @@ import {
   useLocation,
   useNavigate,
   NavLink,
-  Route,
-  Routes,
+  Outlet,
 } from "react-router-dom";
 import { fetchMovieDetails } from "../api";
 
-const MovieCast = lazy(() => import("../components/MovieCast/MovieCast"));
-const MovieReviews = lazy(() =>
-  import("../components/MovieReviews/MovieReviews")
-);
-
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const [movie, setMovie] = useState(null);
 
   useEffect(() => {
     if (movieId) {
@@ -44,24 +38,11 @@ const MovieDetailsPage = () => {
         alt={movie.title}
       />
       <nav>
-        <NavLink
-          to={`cast`}
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Cast
-        </NavLink>
-        <NavLink
-          to={`reviews`}
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Reviews
-        </NavLink>
+        <NavLink to="cast">Cast</NavLink>
+        <NavLink to="reviews">Reviews</NavLink>
       </nav>
       <Suspense fallback={<p>Loading...</p>}>
-        <Routes>
-          <Route path="cast" element={<MovieCast movieId={movieId} />} />
-          <Route path="reviews" element={<MovieReviews movieId={movieId} />} />
-        </Routes>
+        <Outlet />
       </Suspense>
     </div>
   );
