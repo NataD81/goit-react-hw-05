@@ -11,18 +11,21 @@ const MovieCast = lazy(() => import("./components/MovieCast/MovieCast"));
 const MovieReviews = lazy(() =>
   import("./components/MovieReviews/MovieReviews")
 );
+const Loader = () => <p>Loading...</p>;
 
 const App = () => (
   <div className={s.app}>
     <Navigation />
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
+
         <Route path="/movies" element={<MoviesPage />} />
+        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />}>
+          <Route path="cast" element={<MovieCast />} />
+          <Route path="reviews" element={<MovieReviews />} />
+        </Route>
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="cast" element={<MovieCast />} />
-        <Route path="reviews" element={<MovieReviews />} />
       </Routes>
     </Suspense>
   </div>

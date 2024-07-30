@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense, lazy } from "react";
+import { useEffect, useState, Suspense, useRef } from "react";
 import {
   useParams,
   useLocation,
@@ -13,6 +13,7 @@ const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const prevLocation = useRef(location.state?.from);
 
   useEffect(() => {
     if (movieId) {
@@ -21,7 +22,7 @@ const MovieDetailsPage = () => {
   }, [movieId]);
 
   const handleGoBack = () => {
-    navigate(location?.state?.from ?? "/movies");
+    navigate(prevLocation.current ?? "/movies");
   };
 
   if (!movie) {
@@ -41,9 +42,8 @@ const MovieDetailsPage = () => {
         <NavLink to="cast">Cast</NavLink>
         <NavLink to="reviews">Reviews</NavLink>
       </nav>
-      <Suspense fallback={<p>Loading...</p>}>
-        <Outlet />
-      </Suspense>
+
+      <Outlet />
     </div>
   );
 };
