@@ -1,0 +1,23 @@
+.movieReviews {
+  padding: 20px;
+  background-color: #cdd5da;
+  border-radius: 10px;
+}
+
+.movieReviews h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.movieReviews ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.movieReviews li {
+  margin-bottom: 10px;
+}
+
+.movieReviews p {
+  color: #1c73d6;
+}
